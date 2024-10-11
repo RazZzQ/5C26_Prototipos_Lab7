@@ -23,7 +23,18 @@ public class InputHandler : MonoBehaviour
     {
         //Debug.Log(context.ReadValue<Vector2>());
 
-        _characterMovement.Move(context.ReadValue<Vector2>());
+        //_characterMovement.Move(context.ReadValue<Vector2>());
+
+        // Movimiento continuo mientras se mantiene la tecla presionada
+        if (context.phase == InputActionPhase.Performed)
+        {
+            Vector2 direction = context.ReadValue<Vector2>();
+            _characterMovement?.Move(direction);
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            _characterMovement?.Move(Vector2.zero);
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
